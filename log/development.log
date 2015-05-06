@@ -2203,3 +2203,149 @@ Processing by Refinery::Posts::PostsController#show as HTML
   Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_footer.html.erb (0.2ms)
   Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_javascripts.html.erb (28.9ms)
 Completed 200 OK in 139ms (Views: 135.8ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/refinery/images" for ::1 at 2015-05-05 21:31:44 -0700
+Processing by Refinery::Admin::ImagesController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.1ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search_header.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search_header.html.erb (1.5ms)
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "refinery_images"[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "refinery_images"
+  [1m[36mRefinery::Image Load (0.2ms)[0m  [1mSELECT  "refinery_images".* FROM "refinery_images"  ORDER BY created_at DESC LIMIT 20 OFFSET 0[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/images/app/views/refinery/admin/images/_grid_view.html.erb (8.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/images/app/views/refinery/admin/images/_images.html.erb (12.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/images/app/views/refinery/admin/images/_records.html.erb (22.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (1.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (2.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/images/app/views/refinery/admin/images/_actions.html.erb (12.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/images/app/views/refinery/admin/images/index.html.erb within layouts/refinery/admin (41.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (249.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (304.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (3.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (12.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.1ms)
+Completed 200 OK in 396ms (Views: 389.0ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/system/images/W1siZiIsIjIwMTUvMDUvMDUvODZteWM3c251al8xMDg5Nzg5NV8xMDEwMDI5ODYzNzE5MDY3OV80NjM2ODgxODA5NTA3MDcwNDczX24uanBnIl0sWyJwIiwidGh1bWIiLCIxMzV4MTM1I2MiXV0/10897895_10100298637190679_4636881809507070473_n.jpg?sha=ab6d150473a74feb" for ::1 at 2015-05-05 21:31:45 -0700
+
+
+Started GET "/refinery/posts" for ::1 at 2015-05-05 21:31:49 -0700
+Processing by Refinery::Posts::Admin::PostsController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.1ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search_header.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search_header.html.erb (1.7ms)
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "refinery_posts"[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "refinery_posts"
+  [1m[36mRefinery::Posts::Post Load (0.2ms)[0m  [1mSELECT  "refinery_posts".* FROM "refinery_posts"  ORDER BY position ASC LIMIT 20 OFFSET 0[0m
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_post.html.erb (9.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_sortable_list.html.erb (0.1ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_sortable_list.html.erb (14.7ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_posts.html.erb (15.9ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_records.html.erb (25.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (1.7ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "refinery_posts"
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_actions.html.erb (12.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM "refinery_posts"[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_make_sortable.html.erb (33.3ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/index.html.erb within layouts/refinery/admin (76.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (239.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (302.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (3.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (11.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.1ms)
+Completed 200 OK in 426ms (Views: 418.7ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/refinery/posts/1/edit" for ::1 at 2015-05-05 21:31:53 -0700
+Processing by Refinery::Posts::Admin::PostsController#edit as HTML
+  Parameters: {"id"=>"1", "locale"=>:en}
+  [1m[35mRefinery::Posts::Post Load (0.1ms)[0m  SELECT  "refinery_posts".* FROM "refinery_posts" WHERE "refinery_posts"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1[0m  [["title", "Refinery"]]
+  [1m[35mRefinery::User Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1  [["role_id", 1]]
+  [1m[36mRefinery::User Load (0.1ms)[0m  [1mSELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mRefinery::UserPlugin Load (0.1ms)[0m  SELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC  [["user_id", 1]]
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_error_messages.html.erb (0.1ms)
+  [1m[35mRefinery::Image Load (0.1ms)[0m  SELECT  "refinery_images".* FROM "refinery_images" WHERE "refinery_images"."id" = ? LIMIT 1  [["id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_image_picker.html.erb (4.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_wysiwyg.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_form_actions.html.erb (3.8ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_form.html.erb (29.6ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/edit.html.erb within layouts/refinery/admin (30.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (235.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (305.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (3.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (14.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.1ms)
+Completed 200 OK in 385ms (Views: 378.5ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/refinery/pages" for ::1 at 2015-05-05 21:32:01 -0700
+Processing by Refinery::Admin::PagesController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1[0m  [["title", "Refinery"]]
+  [1m[35mRefinery::User Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1  [["role_id", 1]]
+  [1m[36mRefinery::User Load (0.1ms)[0m  [1mSELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mRefinery::UserPlugin Load (0.1ms)[0m  SELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC  [["user_id", 1]]
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search_header.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search_header.html.erb (1.5ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "refinery_pages"
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."parent_id" IS NULL  ORDER BY lft ASC, "refinery_pages"."lft"[0m
+  [1m[35mRefinery::Page::Translation Load (0.3ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 3, 4, 5, 6, 7)
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."parent_id" IN (1, 3, 4, 5, 6, 7)  ORDER BY "lft"[0m
+  [1m[35mRefinery::Page::Translation Load (0.1ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?  [["refinery_page_id", 2]]
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"[0m
+  [1m[35mRefinery::Page::Translation Load (0.1ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)
+  [1m[36mRefinery::Page Load (0.1ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."parent_id" = ?  ORDER BY "lft"[0m  [["parent_id", 2]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (24.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (83.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_sortable_list.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_sortable_list.html.erb (92.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_records.html.erb (101.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (1.6ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "refinery_pages"
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_actions.html.erb (10.7ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM "refinery_pages"[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_make_sortable.html.erb (33.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/index.html.erb within layouts/refinery/admin (152.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (241.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (297.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (4.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (12.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.1ms)
+Completed 200 OK in 497ms (Views: 490.8ms | ActiveRecord: 1.8ms)
