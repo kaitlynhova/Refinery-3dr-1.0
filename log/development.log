@@ -2478,3 +2478,1705 @@ Processing by Refinery::Posts::PostsController#index as HTML
   Rendered refinery/_footer.html.erb (0.2ms)
   Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_javascripts.html.erb (28.2ms)
 Completed 200 OK in 130ms (Views: 127.2ms | ActiveRecord: 1.3ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateBlogStructure (20150506053137)
+  [1m[35m (0.1ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamp` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in up at /Volumes/WalterSr/Users/kaitlynhova/Refinery-3dr-1.0/db/migrate/20150506053137_create_blog_structure.refinery_blog.rb:10)
+  [1m[36m (0.5ms)[0m  [1mCREATE TABLE "refinery_blog_posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "draft" boolean, "published_at" datetime, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_posts_on_id" ON "refinery_blog_posts" ("id")[0m
+DEPRECATION WARNING: `#timestamp` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in up at /Volumes/WalterSr/Users/kaitlynhova/Refinery-3dr-1.0/db/migrate/20150506053137_create_blog_structure.refinery_blog.rb:22)
+  [1m[35m (0.1ms)[0m  CREATE TABLE "refinery_blog_comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "blog_post_id" integer, "spam" boolean, "name" varchar, "email" varchar, "body" text, "state" varchar, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_comments_on_id" ON "refinery_blog_comments" ("id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_comments_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_comments_on_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_comments_on_blog_post_id" ON "refinery_blog_comments" ("blog_post_id")[0m
+DEPRECATION WARNING: `#timestamp` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in up at /Volumes/WalterSr/Users/kaitlynhova/Refinery-3dr-1.0/db/migrate/20150506053137_create_blog_structure.refinery_blog.rb:30)
+  [1m[35m (0.1ms)[0m  CREATE TABLE "refinery_blog_categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_categories_on_id" ON "refinery_blog_categories" ("id")[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "refinery_blog_categories_blog_posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "blog_category_id" integer, "blog_post_id" integer) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_blog_categories_blog_posts_on_bc_and_bp" ON "refinery_blog_categories_blog_posts" ("blog_category_id", "blog_post_id")[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150506053137"]]
+  [1m[36m (1.7ms)[0m  [1mcommit transaction[0m
+Migrating to AddUserIdToBlogPosts (20150506053138)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mALTER TABLE "refinery_blog_posts" ADD "user_id" integer[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150506053138"]]
+  [1m[36m (1.3ms)[0m  [1mcommit transaction[0m
+Migrating to ActsAsTaggableOnMigration (20150506053139)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar) [0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "taggings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "tag_id" integer, "taggable_id" integer, "taggable_type" varchar, "tagger_id" integer, "tagger_type" varchar, "context" varchar, "created_at" datetime) 
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_taggings_on_tag_id" ON "taggings" ("tag_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1mCREATE  INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context" ON "taggings" ("taggable_id", "taggable_type", "context")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150506053139"]]
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+Migrating to AddCachedSlugs (20150506053140)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mALTER TABLE "refinery_blog_categories" ADD "cached_slug" varchar[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "refinery_blog_posts" ADD "cached_slug" varchar
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053140"]]
+  [1m[35m (1.1ms)[0m  commit transaction
+Migrating to AddCustomUrlFieldToBlogPosts (20150506053141)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "refinery_blog_posts" ADD "custom_url" varchar
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053141"]]
+  [1m[35m (1.4ms)[0m  commit transaction
+Migrating to AddCustomTeaserFieldToBlogPosts (20150506053142)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "refinery_blog_posts" ADD "custom_teaser" text
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053142"]]
+  [1m[35m (1.0ms)[0m  commit transaction
+Migrating to AddPrimaryKeyToCategorizations (20150506053143)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150506053143"]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+Migrating to AddSourceUrlToBlogPosts (20150506053144)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mALTER TABLE "refinery_blog_posts" ADD "source_url" varchar[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "refinery_blog_posts" ADD "source_url_title" varchar
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053144"]]
+  [1m[35m (1.0ms)[0m  commit transaction
+Migrating to AddAccessCountToPosts (20150506053145)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "refinery_blog_posts" ADD "access_count" integer DEFAULT 0
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_refinery_blog_posts_on_access_count" ON "refinery_blog_posts" ("access_count")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053145"]]
+  [1m[35m (1.2ms)[0m  commit transaction
+Migrating to AddSlugToPostsAndCategories (20150506053146)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "refinery_blog_posts" ADD "slug" varchar
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_posts_on_slug" ON "refinery_blog_posts" ("slug")[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "refinery_blog_categories" ADD "slug" varchar
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_refinery_blog_categories_on_slug" ON "refinery_blog_categories" ("slug")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053146"]]
+  [1m[35m (1.3ms)[0m  commit transaction
+Migrating to CreateBlogTranslations (20150506053147)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "refinery_blog_post_translations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "refinery_blog_post_id" integer NOT NULL, "locale" varchar NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "refinery_blog_post_translations" ADD "body" text[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "refinery_blog_post_translations" ADD "custom_teaser" text
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "refinery_blog_post_translations" ADD "custom_url" varchar[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "refinery_blog_post_translations" ADD "slug" varchar
+  [1m[36m (0.2ms)[0m  [1mALTER TABLE "refinery_blog_post_translations" ADD "title" varchar[0m
+  [1m[35mRefinery::Blog::Post Load (0.1ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts"  ORDER BY "refinery_blog_posts"."id" ASC LIMIT 1000
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_post_translations_on_refinery_blog_post_id" ON "refinery_blog_post_translations" ("refinery_blog_post_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_post_translations_on_refinery_blog_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_post_translations_on_refinery_blog_post_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_post_translations_on_locale" ON "refinery_blog_post_translations" ("locale")[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150506053147"]]
+  [1m[36m (1.5ms)[0m  [1mcommit transaction[0m
+Migrating to DeleteCachedSlugs (20150506053148)
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.8ms)[0m  [1mCREATE TEMPORARY TABLE "arefinery_blog_categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "created_at" datetime, "updated_at" datetime, "cached_slug" varchar, "slug" varchar) [0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_categories_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_categories_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "tindex_arefinery_blog_categories_on_slug" ON "arefinery_blog_categories" ("slug")
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "tindex_arefinery_blog_categories_on_id" ON "arefinery_blog_categories" ("id")[0m
+  [1m[35m (0.0ms)[0m  SELECT * FROM "refinery_blog_categories"
+  [1m[36m (0.5ms)[0m  [1mDROP TABLE "refinery_blog_categories"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "refinery_blog_categories" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "created_at" datetime, "updated_at" datetime, "slug" varchar) 
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_arefinery_blog_categories_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_arefinery_blog_categories_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_arefinery_blog_categories_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_arefinery_blog_categories_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_categories_on_id" ON "refinery_blog_categories" ("id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_categories_on_slug" ON "refinery_blog_categories" ("slug")[0m
+  [1m[35m (0.0ms)[0m  SELECT * FROM "arefinery_blog_categories"
+  [1m[36m (0.3ms)[0m  [1mDROP TABLE "arefinery_blog_categories"[0m
+  [1m[35m (0.1ms)[0m  CREATE TEMPORARY TABLE "arefinery_blog_posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "draft" boolean, "published_at" datetime, "created_at" datetime, "updated_at" datetime, "user_id" integer, "cached_slug" varchar, "custom_url" varchar, "custom_teaser" text, "source_url" varchar, "source_url_title" varchar, "access_count" integer DEFAULT 0, "slug" varchar) 
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_slug' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "tindex_arefinery_blog_posts_on_slug" ON "arefinery_blog_posts" ("slug")
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "tindex_arefinery_blog_posts_on_access_count" ON "arefinery_blog_posts" ("access_count")[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "tindex_arefinery_blog_posts_on_id" ON "arefinery_blog_posts" ("id")
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "refinery_blog_posts"[0m
+  [1m[35m (0.4ms)[0m  DROP TABLE "refinery_blog_posts"
+  [1m[36m (0.1ms)[0m  [1mCREATE TABLE "refinery_blog_posts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "body" text, "draft" boolean, "published_at" datetime, "created_at" datetime, "updated_at" datetime, "user_id" integer, "custom_url" varchar, "custom_teaser" text, "source_url" varchar, "source_url_title" varchar, "access_count" integer DEFAULT 0, "slug" varchar) [0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_arefinery_blog_posts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_arefinery_blog_posts_on_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_arefinery_blog_posts_on_access_count' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_arefinery_blog_posts_on_access_count' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='tindex_arefinery_blog_posts_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='tindex_arefinery_blog_posts_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_posts_on_id" ON "refinery_blog_posts" ("id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mCREATE  INDEX "index_refinery_blog_posts_on_access_count" ON "refinery_blog_posts" ("access_count")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_refinery_blog_posts_on_slug" ON "refinery_blog_posts" ("slug")
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "arefinery_blog_posts"[0m
+  [1m[35m (0.1ms)[0m  DROP TABLE "arefinery_blog_posts"
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053148"]]
+  [1m[35m (2.4ms)[0m  commit transaction
+Migrating to CreateCategoryTranslations (20150506053149)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE TABLE "refinery_blog_category_translations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "refinery_blog_category_id" integer NOT NULL, "locale" varchar NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "refinery_blog_category_translations" ADD "title" varchar[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "refinery_blog_category_translations" ADD "slug" varchar
+  [1m[36mRefinery::Blog::Category Load (0.0ms)[0m  [1mSELECT  "refinery_blog_categories".* FROM "refinery_blog_categories"  ORDER BY "refinery_blog_categories"."id" ASC LIMIT 1000[0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_a0315945e6213bbe0610724da0ee2de681b77c31" ON "refinery_blog_category_translations" ("refinery_blog_category_id")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_a0315945e6213bbe0610724da0ee2de681b77c31' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_a0315945e6213bbe0610724da0ee2de681b77c31' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_refinery_blog_category_translations_on_locale" ON "refinery_blog_category_translations" ("locale")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053149"]]
+  [1m[35m (2.1ms)[0m  commit transaction
+Migrating to AddMissingUniqueIndices (20150506053150)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  CREATE UNIQUE INDEX "index_tags_on_name" ON "tags" ("name")
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_tag_id' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1mDROP INDEX "index_taggings_on_tag_id"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_taggings_on_taggable_id_and_taggable_type_and_context' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1mDROP INDEX "index_taggings_on_taggable_id_and_taggable_type_and_context"[0m
+  [1m[35m (0.2ms)[0m  CREATE UNIQUE INDEX "taggings_idx" ON "taggings" ("tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053150"]]
+  [1m[35m (1.8ms)[0m  commit transaction
+Migrating to AddTaggingsCounterCacheToTags (20150506053151)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "tags" ADD "taggings_count" integer DEFAULT 0
+  [1m[36mActsAsTaggableOn::Tag Load (0.0ms)[0m  [1mSELECT  "tags".* FROM "tags"  ORDER BY "tags"."id" ASC LIMIT 1000[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150506053151"]]
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+Migrating to CreateRefinerycmsSettingsSchema (20150506053152)
+  [1m[35m (0.0ms)[0m  begin transaction
+DEPRECATION WARNING: `#timestamp` was called without specifying an option for `null`. In Rails 5, this behavior will change to `null: false`. You should manually specify `null: true` to prevent the behavior of your existing migrations from changing. (called from block in change at /Volumes/WalterSr/Users/kaitlynhova/Refinery-3dr-1.0/db/migrate/20150506053152_create_refinerycms_settings_schema.refinery_settings.rb:12)
+  [1m[36m (0.3ms)[0m  [1mCREATE TABLE "refinery_settings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "value" text, "destroyable" boolean DEFAULT 't', "scoping" varchar, "restricted" boolean DEFAULT 'f', "form_value_type" varchar, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.1ms)[0m  CREATE  INDEX "index_refinery_settings_on_name" ON "refinery_settings" ("name")
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053152"]]
+  [1m[35m (0.9ms)[0m  commit transaction
+Migrating to AddSlugToRefinerySettings (20150506053153)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "refinery_settings" ADD "slug" varchar
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053153"]]
+  [1m[35m (1.6ms)[0m  commit transaction
+Migrating to AddTitleToRefinerySettings (20150506053154)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  ALTER TABLE "refinery_settings" ADD "title" varchar
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150506053154"]]
+  [1m[35m (1.4ms)[0m  commit transaction
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_categories_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_categories_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_categories_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_blog_categories_blog_posts_on_bc_and_bp' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_blog_categories_blog_posts_on_bc_and_bp' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_category_translations_on_locale' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_category_translations_on_locale' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_a0315945e6213bbe0610724da0ee2de681b77c31' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_a0315945e6213bbe0610724da0ee2de681b77c31' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_comments_on_blog_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_comments_on_blog_post_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_comments_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_comments_on_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_post_translations_on_locale' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_post_translations_on_locale' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_post_translations_on_refinery_blog_post_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_post_translations_on_refinery_blog_post_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_slug' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_access_count' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_blog_posts_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_page_part_translations_on_locale' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_page_part_translations_on_locale' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_page_part_translations_on_refinery_page_part_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_page_part_translations_on_refinery_page_part_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_page_parts_on_refinery_page_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_page_parts_on_refinery_page_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_page_parts_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_page_parts_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_page_translations_on_locale' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_page_translations_on_locale' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_page_translations_on_refinery_page_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_page_translations_on_refinery_page_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_pages_on_rgt' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_pages_on_rgt' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_pages_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_pages_on_parent_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_pages_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_pages_on_lft' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_pages_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_pages_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_pages_on_depth' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_pages_on_depth' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_roles_users_on_user_id_and_role_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_roles_users_on_user_id_and_role_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_roles_users_on_role_id_and_user_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_roles_users_on_role_id_and_user_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_settings_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_settings_on_name' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_user_plugins_on_user_id_and_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_user_plugins_on_user_id_and_name' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_user_plugins_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_user_plugins_on_name' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_users_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_users_on_slug' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_refinery_users_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_refinery_users_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='id_type_index_on_seo_meta' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='id_type_index_on_seo_meta' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_seo_meta_on_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_seo_meta_on_id' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='taggings_idx' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='taggings_idx' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_tags_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_tags_on_name' AND type='index'
+[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "refinery_pages" WHERE "refinery_pages"."menu_match" = ?  [["menu_match", "^/$"]]
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" INNER JOIN "refinery_page_translations" ON "refinery_page_translations"."refinery_page_id" = "refinery_pages"."id" WHERE "refinery_page_translations"."locale" = 'en' AND "refinery_page_translations"."title" = 'Home'[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mRefinery::Page::Translation Load (0.3ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?[0m  [["refinery_page_id", 1]]
+  [1m[35mRefinery::Page Load (0.2ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::Page::Translation Load (0.0ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?[0m  [["refinery_page_id", 1]]
+  [1m[35mSeoMetum Load (0.1ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 1]]
+  [1m[36mSeoMetum Load (0.0ms)[0m  [1mSELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1[0m  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 1]]
+  [1m[35mRefinery::PagePart Load (0.1ms)[0m  SELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC  [["refinery_page_id", 1]]
+  [1m[36mRefinery::PagePart::Translation Load (0.2ms)[0m  [1mSELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (1, 2)[0m
+  [1m[35mRefinery::PagePart Load (0.1ms)[0m  SELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC  [["refinery_page_id", 1]]
+  [1m[36mRefinery::PagePart::Translation Load (0.1ms)[0m  [1mSELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (1, 2)[0m
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mSQL (0.4ms)[0m  [1mUPDATE "refinery_pages" SET "depth" = 0 WHERE "refinery_pages"."id" IN (SELECT "refinery_pages"."id" FROM "refinery_pages" WHERE "refinery_pages"."id" = 1  ORDER BY "refinery_pages"."lft")[0m
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::PagePart Load (0.0ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 1]]
+  [1m[35mRefinery::PagePart::Translation Load (0.1ms)[0m  SELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (1, 2)
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "refinery_page_parts" SET "position" = 0 WHERE "refinery_page_parts"."id" = ?[0m  [["id", 1]]
+  [1m[35mSQL (0.1ms)[0m  UPDATE "refinery_page_parts" SET "position" = 1 WHERE "refinery_page_parts"."id" = ?  [["id", 2]]
+  [1m[36m (1.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mRefinery::Page Load (0.1ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" INNER JOIN "refinery_page_translations" ON "refinery_page_translations"."refinery_page_id" = "refinery_pages"."id" WHERE "refinery_page_translations"."locale" = 'en' AND "refinery_page_translations"."title" = 'Page not found'
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mRefinery::Page::Translation Load (0.1ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?  [["refinery_page_id", 2]]
+  [1m[36mRefinery::Page Load (0.0ms)[0m  [1mSELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35mRefinery::Page::Translation Load (0.0ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?  [["refinery_page_id", 2]]
+  [1m[36mSeoMetum Load (0.0ms)[0m  [1mSELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1[0m  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 2]]
+  [1m[35mSeoMetum Load (0.0ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 2]]
+  [1m[36mRefinery::PagePart Load (0.0ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 2]]
+  [1m[35mRefinery::PagePart::Translation Load (0.1ms)[0m  SELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (3)
+  [1m[36mRefinery::PagePart Load (0.0ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 2]]
+  [1m[35mRefinery::PagePart::Translation Load (0.1ms)[0m  SELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (3)
+  [1m[36mRefinery::Page Load (0.0ms)[0m  [1mSELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1[0m  [["id", 2]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3) AND ("refinery_pages"."id" != 2)
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "refinery_pages" SET "depth" = 1 WHERE "refinery_pages"."id" IN (SELECT "refinery_pages"."id" FROM "refinery_pages" WHERE "refinery_pages"."id" = 2  ORDER BY "refinery_pages"."lft")[0m
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mRefinery::PagePart Load (0.0ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 2]]
+  [1m[35mRefinery::PagePart::Translation Load (0.1ms)[0m  SELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (3)
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "refinery_page_parts" SET "position" = 0 WHERE "refinery_page_parts"."id" = ?[0m  [["id", 3]]
+  [1m[35m (1.2ms)[0m  commit transaction
+  [1m[36mRefinery::Page Load (0.1ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" INNER JOIN "refinery_page_translations" ON "refinery_page_translations"."refinery_page_id" = "refinery_pages"."id" WHERE "refinery_page_translations"."locale" = 'en' AND "refinery_page_translations"."title" = 'About'[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mRefinery::Page::Translation Load (0.1ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?[0m  [["refinery_page_id", 3]]
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mRefinery::Page::Translation Load (0.0ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?[0m  [["refinery_page_id", 3]]
+  [1m[35mSeoMetum Load (0.0ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 3]]
+  [1m[36mSeoMetum Load (0.0ms)[0m  [1mSELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1[0m  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 3]]
+  [1m[35mRefinery::PagePart Load (0.0ms)[0m  SELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC  [["refinery_page_id", 3]]
+  [1m[36mRefinery::PagePart::Translation Load (0.1ms)[0m  [1mSELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (4, 5)[0m
+  [1m[35mRefinery::PagePart Load (0.0ms)[0m  SELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC  [["refinery_page_id", 3]]
+  [1m[36mRefinery::PagePart::Translation Load (0.1ms)[0m  [1mSELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (4, 5)[0m
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mSQL (0.3ms)[0m  [1mUPDATE "refinery_pages" SET "depth" = 0 WHERE "refinery_pages"."id" IN (SELECT "refinery_pages"."id" FROM "refinery_pages" WHERE "refinery_pages"."id" = 3  ORDER BY "refinery_pages"."lft")[0m
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 3]]
+  [1m[36mRefinery::PagePart Load (0.0ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 3]]
+  [1m[35mRefinery::PagePart::Translation Load (0.1ms)[0m  SELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (4, 5)
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "refinery_page_parts" SET "position" = 0 WHERE "refinery_page_parts"."id" = ?[0m  [["id", 4]]
+  [1m[35mSQL (0.0ms)[0m  UPDATE "refinery_page_parts" SET "position" = 1 WHERE "refinery_page_parts"."id" = ?  [["id", 5]]
+  [1m[36m (1.4ms)[0m  [1mcommit transaction[0m
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users"  ORDER BY "refinery_users"."id" ASC LIMIT 1000
+  [1m[36m (0.1ms)[0m  [1mSELECT MAX("refinery_user_plugins"."position") FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?[0m  [["user_id", 1]]
+  [1m[35mRefinery::UserPlugin Load (0.1ms)[0m  SELECT  "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ? AND "refinery_user_plugins"."name" = ?  ORDER BY position ASC LIMIT 1  [["user_id", 1], ["name", "refinerycms-posts"]]
+  [1m[36mRefinery::Page Load (0.1ms)[0m  [1mSELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."link_url" = ?  ORDER BY "refinery_pages"."id" ASC LIMIT 1[0m  [["link_url", "/posts"]]
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT "refinery_users".* FROM "refinery_users"
+  [1m[36mRefinery::UserPlugin Load (0.1ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ? AND "refinery_user_plugins"."name" = ?  ORDER BY position ASC[0m  [["user_id", 1], ["name", "refinerycms_blog"]]
+  [1m[35m (0.1ms)[0m  SELECT MAX("refinery_user_plugins"."position") FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  [["user_id", 1]]
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "refinery_user_plugins" ("name", "position", "user_id") VALUES (?, ?, ?)  [["name", "refinerycms_blog"], ["position", 10], ["user_id", 1]]
+  [1m[36m (2.3ms)[0m  [1mcommit transaction[0m
+  [1m[35mRefinery::Page Exists (0.2ms)[0m  SELECT  1 AS one FROM "refinery_pages" WHERE "refinery_pages"."link_url" = ? LIMIT 1  [["link_url", "/blog"]]
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mRefinery::Page Exists (0.2ms)[0m  SELECT  1 AS one FROM "refinery_pages" INNER JOIN "refinery_page_translations" ON "refinery_page_translations"."refinery_page_id" = "refinery_pages"."id" WHERE "refinery_pages"."parent_id" IS NULL AND ("refinery_pages"."id" IS NOT NULL) AND "refinery_page_translations"."slug" = 'blog' AND "refinery_page_translations"."locale" = ? LIMIT 1  [["locale", "en"]]
+  [1m[36mRefinery::Page Load (0.1ms)[0m  [1mSELECT  "refinery_pages".* FROM "refinery_pages"  ORDER BY "refinery_pages"."rgt" desc LIMIT 1[0m
+  [1m[35mRefinery::Page Load (0.1ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1   [["id", 7]]
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "refinery_pages" ("link_url", "deletable", "menu_match", "created_at", "updated_at", "lft", "rgt") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["link_url", "/blog"], ["deletable", "f"], ["menu_match", "^/blog?(/|/.+?|)$"], ["created_at", "2015-05-06 05:31:51.840001"], ["updated_at", "2015-05-06 05:31:51.840001"], ["lft", 15], ["rgt", 16]]
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "refinery_page_translations" ("locale", "title", "slug", "refinery_page_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["locale", "en"], ["title", "Blog"], ["slug", "blog"], ["refinery_page_id", 8], ["created_at", "2015-05-06 05:31:51.843802"], ["updated_at", "2015-05-06 05:31:51.843802"]]
+  [1m[36mSeoMetum Load (0.0ms)[0m  [1mSELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1[0m  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 8]]
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "seo_meta" ("seo_meta_type", "seo_meta_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["seo_meta_type", "Refinery::Page::Translation"], ["seo_meta_id", 8], ["created_at", "2015-05-06 05:31:51.845467"], ["updated_at", "2015-05-06 05:31:51.845467"]]
+  [1m[36mRefinery::PagePart Load (0.0ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 8]]
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 8]]
+  [1m[36mSQL (0.1ms)[0m  [1mUPDATE "refinery_pages" SET "depth" = 0 WHERE "refinery_pages"."id" IN (SELECT "refinery_pages"."id" FROM "refinery_pages" WHERE "refinery_pages"."id" = 8  ORDER BY "refinery_pages"."lft")[0m
+  [1m[35mRefinery::Page Load (0.0ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."id" = ? LIMIT 1  [["id", 8]]
+  [1m[36mRefinery::PagePart Load (0.0ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 8]]
+  [1m[35m (1.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mRefinery::PagePart Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_page_parts" WHERE ("refinery_page_parts"."title" = 'Body' AND "refinery_page_parts"."refinery_page_id" = 8) LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "refinery_page_parts" ("title", "position", "refinery_page_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["title", "Body"], ["position", 0], ["refinery_page_id", 8], ["created_at", "2015-05-06 05:31:51.858625"], ["updated_at", "2015-05-06 05:31:51.858625"]]
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "refinery_page_part_translations" ("locale", "refinery_page_part_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["locale", "en"], ["refinery_page_part_id", 14], ["created_at", "2015-05-06 05:31:51.860220"], ["updated_at", "2015-05-06 05:31:51.860220"]]
+  [1m[36m (1.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mRefinery::PagePart Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "refinery_page_parts" WHERE ("refinery_page_parts"."title" = 'Side Body' AND "refinery_page_parts"."refinery_page_id" = 8) LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "refinery_page_parts" ("title", "position", "refinery_page_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["title", "Side Body"], ["position", 1], ["refinery_page_id", 8], ["created_at", "2015-05-06 05:31:51.865749"], ["updated_at", "2015-05-06 05:31:51.865749"]]
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "refinery_page_part_translations" ("locale", "refinery_page_part_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["locale", "en"], ["refinery_page_part_id", 15], ["created_at", "2015-05-06 05:31:51.867198"], ["updated_at", "2015-05-06 05:31:51.867198"]]
+  [1m[35m (2.2ms)[0m  commit transaction
+
+
+Started GET "/refinery/pages" for ::1 at 2015-05-05 22:32:26 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Refinery::Admin::PagesController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[35mRefinery::Role Load (0.2ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.2ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.2ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.2ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.1ms)[0m  [1mSELECT "refinery_user_plugins"."position" FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "refinery_user_plugins" ("name", "position", "user_id") VALUES (?, ?, ?)[0m  [["name", "refinery_settings"], ["position", 11], ["user_id", 1]]
+  [1m[35m (0.8ms)[0m  commit transaction
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search_header.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search_header.html.erb (2.9ms)
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "refinery_pages"[0m
+  [1m[35mRefinery::Page Load (0.2ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."parent_id" IS NULL  ORDER BY lft ASC, "refinery_pages"."lft"
+  [1m[36mRefinery::Page::Translation Load (0.2ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 3, 4, 5, 6, 7, 8)[0m
+  [1m[35mRefinery::Page Load (0.2ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."parent_id" IN (1, 3, 4, 5, 6, 7, 8)  ORDER BY "lft"
+  [1m[36mRefinery::Page::Translation Load (0.2ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?[0m  [["refinery_page_id", 2]]
+  [1m[35mRefinery::Page Load (0.2ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"
+  [1m[36mRefinery::Page::Translation Load (0.2ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)[0m
+  [1m[35mRefinery::Page Load (0.2ms)[0m  SELECT "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."parent_id" = ?  ORDER BY "lft"  [["parent_id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_pages".* FROM "refinery_pages" WHERE ("refinery_pages"."lft" <= 2) AND ("refinery_pages"."rgt" >= 3)  ORDER BY "refinery_pages"."lft"[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" IN (1, 2)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (28.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (0.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_page.html.erb (119.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_sortable_list.html.erb (0.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_sortable_list.html.erb (159.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_records.html.erb (173.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (29.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (32.1ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM "refinery_pages"[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/_actions.html.erb (44.2ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "refinery_pages"
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_make_sortable.html.erb (308.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/app/views/refinery/admin/pages/index.html.erb within layouts/refinery/admin (567.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (1636.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (3514.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (6.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (16.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.5ms)
+Completed 200 OK in 4329ms (Views: 4168.9ms | ActiveRecord: 4.8ms)
+
+
+Started GET "/refinery/blog/posts" for ::1 at 2015-05-05 22:32:34 -0700
+Processing by Refinery::Blog::Admin::PostsController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1[0m  [["title", "Refinery"]]
+  [1m[35mRefinery::User Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1  [["role_id", 1]]
+  [1m[36mRefinery::User Load (0.1ms)[0m  [1mSELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mRefinery::UserPlugin Load (0.1ms)[0m  SELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC  [["user_id", 1]]
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (2.4ms)
+  [1m[35mRefinery::Setting Load (0.1ms)[0m  SELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'  [["scoping", "blog"]]
+  [1m[36mRefinery::Setting Load (0.1ms)[0m  [1mSELECT  "refinery_settings".* FROM "refinery_settings" WHERE "refinery_settings"."name" = ? AND "refinery_settings"."scoping" = ?  ORDER BY "refinery_settings"."id" ASC LIMIT 1[0m  [["name", "comments_allowed"], ["scoping", "blog"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mRefinery::Setting Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "refinery_settings" WHERE ("refinery_settings"."id" IS NOT NULL) AND "refinery_settings"."slug" = ? LIMIT 1[0m  [["slug", "comments_allowed"]]
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "refinery_settings" ("name", "scoping", "form_value_type", "value", "slug", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)  [["name", "comments_allowed"], ["scoping", "blog"], ["form_value_type", "text_area"], ["value", "--- 'true'\n"], ["slug", "comments_allowed"], ["created_at", "2015-05-06 05:32:34.571675"], ["updated_at", "2015-05-06 05:32:34.571675"]]
+  [1m[36mRefinery::Setting Load (0.1ms)[0m  [1mSELECT  "refinery_settings".* FROM "refinery_settings"  ORDER BY "refinery_settings"."id" ASC LIMIT 500[0m
+  [1m[35m (41.8ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "refinery_blog_comments" WHERE "refinery_blog_comments"."state" IS NULL[0m
+  [1m[35mRefinery::Setting Load (0.1ms)[0m  SELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'  [["scoping", "blog"]]
+  [1m[36mRefinery::Setting Load (0.2ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comment_moderation'[0m  [["scoping", "blog"]]
+  [1m[35mRefinery::Setting Load (0.1ms)[0m  SELECT  "refinery_settings".* FROM "refinery_settings" WHERE "refinery_settings"."name" = ? AND "refinery_settings"."scoping" = ?  ORDER BY "refinery_settings"."id" ASC LIMIT 1  [["name", "comment_moderation"], ["scoping", "blog"]]
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mRefinery::Setting Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_settings" WHERE ("refinery_settings"."id" IS NOT NULL) AND "refinery_settings"."slug" = ? LIMIT 1  [["slug", "comment_moderation"]]
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "refinery_settings" ("name", "scoping", "form_value_type", "value", "slug", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "comment_moderation"], ["scoping", "blog"], ["form_value_type", "text_area"], ["value", "--- 'true'\n"], ["slug", "comment_moderation"], ["created_at", "2015-05-06 05:32:34.899975"], ["updated_at", "2015-05-06 05:32:34.899975"]]
+  [1m[35m (1.3ms)[0m  commit transaction
+  [1m[36mRefinery::Setting Load (0.2ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'teasers_enabled'[0m  [["scoping", "blog"]]
+  [1m[35mRefinery::Setting Load (0.1ms)[0m  SELECT  "refinery_settings".* FROM "refinery_settings" WHERE "refinery_settings"."name" = ? AND "refinery_settings"."scoping" = ?  ORDER BY "refinery_settings"."id" ASC LIMIT 1  [["name", "teasers_enabled"], ["scoping", "blog"]]
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mRefinery::Setting Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_settings" WHERE ("refinery_settings"."id" IS NOT NULL) AND "refinery_settings"."slug" = ? LIMIT 1  [["slug", "teasers_enabled"]]
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "refinery_settings" ("name", "scoping", "form_value_type", "value", "slug", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "teasers_enabled"], ["scoping", "blog"], ["form_value_type", "text_area"], ["value", "--- 'true'\n"], ["slug", "teasers_enabled"], ["created_at", "2015-05-06 05:32:34.917530"], ["updated_at", "2015-05-06 05:32:34.917530"]]
+  [1m[35m (1.1ms)[0m  commit transaction
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/_submenu.html.erb (730.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/index.html.erb within layouts/refinery/admin (732.6ms)
+Completed 500 Internal Server Error in 748ms
+
+ActionView::Template::Error (Asset filtered out and will not be served: add `Rails.application.config.assets.precompile += %w( refinery/blog/backend.css )` to `config/initializers/assets.rb` and restart your server):
+    90: 
+    91: </nav>
+    92: 
+    93: <% content_for :stylesheets, stylesheet_link_tag('refinery/blog/backend') %>
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:193:in `check_errors_for'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:159:in `block in stylesheet_link_tag'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:158:in `map'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:158:in `stylesheet_link_tag'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/_submenu.html.erb:93:in `___olumes__alter_r__sers_kaitlynhova__rvm_gems_ruby_______bundler_gems_refinerycms_blog___e_b________app_views_refinery_blog_admin__submenu_html_erb__3016656237627628149_70202148898660'
+  actionview (4.2.0) lib/action_view/template.rb:145:in `block in render'
+  activesupport (4.2.0) lib/active_support/notifications.rb:166:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:333:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:143:in `render'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:339:in `render_partial'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:310:in `block in render'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:309:in `render'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:47:in `render_partial'
+  actionview (4.2.0) lib/action_view/helpers/rendering_helper.rb:35:in `render'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/index.html.erb:1:in `___olumes__alter_r__sers_kaitlynhova__rvm_gems_ruby_______bundler_gems_refinerycms_blog___e_b________app_views_refinery_blog_admin_posts_index_html_erb___1610547148761753854_70202149192820'
+  actionview (4.2.0) lib/action_view/template.rb:145:in `block in render'
+  activesupport (4.2.0) lib/active_support/notifications.rb:166:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:333:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:143:in `render'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:54:in `block (2 levels) in render_template'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:53:in `block in render_template'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:61:in `render_with_layout'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:52:in `render_template'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:14:in `render'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.2.0) lib/action_view/rendering.rb:100:in `_render_template'
+  actionpack (4.2.0) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.2.0) lib/action_view/rendering.rb:83:in `render_to_body'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.2.0) lib/action_controller/metal/renderers.rb:37:in `render_to_body'
+  actionpack (4.2.0) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.2.0) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/benchmark.rb:294:in `realtime'
+  activesupport (4.2.0) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.2.0) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.2.0) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.2.0) lib/abstract_controller/base.rb:198:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.2.0) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:117:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:117:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:219:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:219:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:92:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:92:in `_run_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:734:in `_run_process_action_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.0) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.2.0) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.2.0) lib/abstract_controller/base.rb:137:in `process'
+  actionview (4.2.0) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.2.0) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.2.0) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.2.0) lib/action_controller/metal.rb:236:in `block in action'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:42:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:802:in `call'
+  railties (4.2.0) lib/rails/engine.rb:518:in `call'
+  railties (4.2.0) lib/rails/railtie.rb:194:in `public_send'
+  railties (4.2.0) lib/rails/railtie.rb:194:in `method_missing'
+  actionpack (4.2.0) lib/action_dispatch/routing/mapper.rb:51:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:802:in `call'
+  dragonfly (1.0.9) lib/dragonfly/middleware.rb:14:in `call'
+  dragonfly (1.0.9) lib/dragonfly/middleware.rb:14:in `call'
+  warden (1.2.3) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.3) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.3) lib/warden/manager.rb:34:in `call'
+  rack (1.6.0) lib/rack/etag.rb:24:in `call'
+  rack (1.6.0) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.6.0) lib/rack/head.rb:13:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/flash.rb:260:in `call'
+  rack (1.6.0) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.6.0) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/cookies.rb:560:in `call'
+  activerecord (4.2.0) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.2.0) lib/active_record/connection_adapters/abstract/connection_pool.rb:647:in `call'
+  activerecord (4.2.0) lib/active_record/migration.rb:378:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:88:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:88:in `_run_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:734:in `_run_call_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.0) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/remote_ip.rb:78:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  web-console (2.1.2) lib/web_console/middleware.rb:37:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.0) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.0) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.0) lib/rails/rack/logger.rb:20:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (4.2.0) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.0) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.0) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.0) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  dragonfly (1.0.9) lib/dragonfly/cookie_monster.rb:9:in `call'
+  rack (1.6.0) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/static.rb:113:in `call'
+  rack (1.6.0) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.0) lib/rails/engine.rb:518:in `call'
+  railties (4.2.0) lib/rails/application.rb:164:in `call'
+  rack (1.6.0) lib/rack/lock.rb:17:in `call'
+  rack (1.6.0) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.0) lib/rack/handler/webrick.rb:89:in `service'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (11.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (33.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (17.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (39.7ms)
+
+
+Started GET "/refinery/blog/posts" for ::1 at 2015-05-05 22:33:04 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Refinery::Blog::Admin::PostsController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[35mRefinery::Role Load (0.2ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.2ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.2ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.2ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (7.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (10.0ms)
+  [1m[36mRefinery::Setting Load (0.2ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'[0m  [["scoping", "blog"]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "refinery_blog_comments" WHERE "refinery_blog_comments"."state" IS NULL
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'[0m  [["scoping", "blog"]]
+  [1m[35mRefinery::Setting Load (0.2ms)[0m  SELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comment_moderation'  [["scoping", "blog"]]
+  [1m[36mRefinery::Setting Load (0.2ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'teasers_enabled'[0m  [["scoping", "blog"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/_submenu.html.erb (228.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search_header.html.erb (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search_header.html.erb (2.7ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "refinery_blog_posts"
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/index.html.erb within layouts/refinery/admin (241.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (347.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (465.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (15.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (24.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.6ms)
+Completed 200 OK in 875ms (Views: 792.5ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/refinery/blog/posts/new" for ::1 at 2015-05-05 22:33:14 -0700
+Processing by Refinery::Blog::Admin::PostsController#new as HTML
+  Parameters: {"locale"=>:en}
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1[0m  [["title", "Refinery"]]
+  [1m[35mRefinery::User Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1  [["role_id", 1]]
+  [1m[36mRefinery::User Load (0.1ms)[0m  [1mSELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mRefinery::UserPlugin Load (0.1ms)[0m  SELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC  [["user_id", 1]]
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_error_messages.html.erb (2.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_locale_picker.html.erb (0.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_form_part.html.erb (1.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_teaser_part.html.erb (0.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_form_advanced_options_menu.html.erb (16.7ms)
+  [1m[35mRefinery::Blog::Category Load (0.2ms)[0m  SELECT "refinery_blog_categories".* FROM "refinery_blog_categories"
+  [1m[36mRefinery::User Load (0.2ms)[0m  [1mSELECT "refinery_users".* FROM "refinery_users"[0m
+  [1m[35mSeoMetum Load (0.2ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" IS NULL  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Blog::Post::Translation"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/seo_meta-2.0.0.rc.1/app/views/seo_meta/_form.html.erb (14.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_continue_editing.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_form_actions.html.erb (7.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/shared/admin/_autocomplete.html.erb (186.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_form.html.erb (787.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/new.html.erb within layouts/refinery/admin (788.2ms)
+Completed 500 Internal Server Error in 811ms
+
+ActionView::Template::Error (Asset filtered out and will not be served: add `Rails.application.config.assets.precompile += %w( refinery/blog/ui-lightness/jquery-ui-1.8.13.custom.css )` to `config/initializers/assets.rb` and restart your server):
+    1: <% content_for :stylesheets, stylesheet_link_tag("refinery/blog/ui-lightness/jquery-ui-1.8.13.custom") %>
+    2: <% content_for :javascripts do %>
+    3: <script>
+    4:   function split(val) {
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:193:in `check_errors_for'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:159:in `block in stylesheet_link_tag'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:158:in `map'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:158:in `stylesheet_link_tag'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/shared/admin/_autocomplete.html.erb:1:in `___olumes__alter_r__sers_kaitlynhova__rvm_gems_ruby_______bundler_gems_refinerycms_blog___e_b________app_views_refinery_shared_admin__autocomplete_html_erb__4564496561962267075_70342673053020'
+  actionview (4.2.0) lib/action_view/template.rb:145:in `block in render'
+  activesupport (4.2.0) lib/active_support/notifications.rb:166:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:333:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:143:in `render'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:339:in `render_partial'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:310:in `block in render'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:309:in `render'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:47:in `render_partial'
+  actionview (4.2.0) lib/action_view/helpers/rendering_helper.rb:35:in `render'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_form.html.erb:107:in `___olumes__alter_r__sers_kaitlynhova__rvm_gems_ruby_______bundler_gems_refinerycms_blog___e_b________app_views_refinery_blog_admin_posts__form_html_erb___4438678968523223481_70342601857060'
+  actionview (4.2.0) lib/action_view/template.rb:145:in `block in render'
+  activesupport (4.2.0) lib/active_support/notifications.rb:166:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:333:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:143:in `render'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:339:in `render_partial'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:310:in `block in render'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/partial_renderer.rb:309:in `render'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:47:in `render_partial'
+  actionview (4.2.0) lib/action_view/helpers/rendering_helper.rb:35:in `render'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/new.html.erb:1:in `___olumes__alter_r__sers_kaitlynhova__rvm_gems_ruby_______bundler_gems_refinerycms_blog___e_b________app_views_refinery_blog_admin_posts_new_html_erb___3578720441402394872_70342601777480'
+  actionview (4.2.0) lib/action_view/template.rb:145:in `block in render'
+  activesupport (4.2.0) lib/active_support/notifications.rb:166:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:333:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:143:in `render'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:54:in `block (2 levels) in render_template'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:53:in `block in render_template'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:61:in `render_with_layout'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:52:in `render_template'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:14:in `render'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.2.0) lib/action_view/rendering.rb:100:in `_render_template'
+  actionpack (4.2.0) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.2.0) lib/action_view/rendering.rb:83:in `render_to_body'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.2.0) lib/action_controller/metal/renderers.rb:37:in `render_to_body'
+  actionpack (4.2.0) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.2.0) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/benchmark.rb:294:in `realtime'
+  activesupport (4.2.0) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.2.0) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.2.0) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.2.0) lib/abstract_controller/base.rb:198:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.2.0) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:117:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:117:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:219:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:219:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:92:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:92:in `_run_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:734:in `_run_process_action_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.0) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.2.0) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.2.0) lib/abstract_controller/base.rb:137:in `process'
+  actionview (4.2.0) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.2.0) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.2.0) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.2.0) lib/action_controller/metal.rb:236:in `block in action'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:42:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:802:in `call'
+  railties (4.2.0) lib/rails/engine.rb:518:in `call'
+  railties (4.2.0) lib/rails/railtie.rb:194:in `public_send'
+  railties (4.2.0) lib/rails/railtie.rb:194:in `method_missing'
+  actionpack (4.2.0) lib/action_dispatch/routing/mapper.rb:51:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:802:in `call'
+  dragonfly (1.0.9) lib/dragonfly/middleware.rb:14:in `call'
+  dragonfly (1.0.9) lib/dragonfly/middleware.rb:14:in `call'
+  warden (1.2.3) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.3) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.3) lib/warden/manager.rb:34:in `call'
+  rack (1.6.0) lib/rack/etag.rb:24:in `call'
+  rack (1.6.0) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.6.0) lib/rack/head.rb:13:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/flash.rb:260:in `call'
+  rack (1.6.0) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.6.0) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/cookies.rb:560:in `call'
+  activerecord (4.2.0) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.2.0) lib/active_record/connection_adapters/abstract/connection_pool.rb:647:in `call'
+  activerecord (4.2.0) lib/active_record/migration.rb:378:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:88:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:88:in `_run_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:734:in `_run_call_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.0) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/remote_ip.rb:78:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  web-console (2.1.2) lib/web_console/middleware.rb:37:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.0) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.0) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.0) lib/rails/rack/logger.rb:20:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (4.2.0) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.0) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.0) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.0) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  dragonfly (1.0.9) lib/dragonfly/cookie_monster.rb:9:in `call'
+  rack (1.6.0) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/static.rb:113:in `call'
+  rack (1.6.0) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.0) lib/rails/engine.rb:518:in `call'
+  railties (4.2.0) lib/rails/application.rb:164:in `call'
+  rack (1.6.0) lib/rack/lock.rb:17:in `call'
+  rack (1.6.0) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.0) lib/rack/handler/webrick.rb:89:in `service'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (9.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (27.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (18.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (35.7ms)
+
+
+Started GET "/refinery/blog/posts/new" for ::1 at 2015-05-05 22:33:36 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Refinery::Blog::Admin::PostsController#new as HTML
+  Parameters: {"locale"=>:en}
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.2ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.2ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_error_messages.html.erb (2.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_locale_picker.html.erb (0.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_form_part.html.erb (1.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_teaser_part.html.erb (0.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_form_advanced_options_menu.html.erb (2.6ms)
+  [1m[36mRefinery::Blog::Category Load (0.1ms)[0m  [1mSELECT "refinery_blog_categories".* FROM "refinery_blog_categories"[0m
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT "refinery_users".* FROM "refinery_users"
+  [1m[36mSeoMetum Load (0.2ms)[0m  [1mSELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" IS NULL  ORDER BY "seo_meta"."id" ASC LIMIT 1[0m  [["seo_meta_type", "Refinery::Blog::Post::Translation"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/seo_meta-2.0.0.rc.1/app/views/seo_meta/_form.html.erb (11.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_continue_editing.html.erb (0.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_form_actions.html.erb (6.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/shared/admin/_autocomplete.html.erb (6.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_form.html.erb (332.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/new.html.erb within layouts/refinery/admin (337.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (319.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (431.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (5.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (15.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.5ms)
+Completed 200 OK in 923ms (Views: 833.4ms | ActiveRecord: 2.4ms)
+
+
+Started POST "/refinery/blog/posts" for ::1 at 2015-05-05 22:34:20 -0700
+Processing by Refinery::Blog::Admin::PostsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"56HjZoua9mJBXHtPlut/+jRv6QeMSJ8RzDshn13vC0BSV0NRcB7bejiTgz2fhY7QzYrP5u6mq4DZyTG4u7lxUg==", "switch_locale"=>"en", "post"=>{"title"=>"Post 1", "body"=>"<p>first post yo</p>", "custom_teaser"=>"", "draft"=>"0", "tag_list"=>"", "published_at(1i)"=>"2015", "published_at(2i)"=>"5", "published_at(3i)"=>"6", "published_at(4i)"=>"05", "published_at(5i)"=>"33", "custom_url"=>"", "source_url_title"=>"", "source_url"=>"", "user_id"=>"1", "browser_title"=>"", "meta_description"=>""}, "continue_editing"=>"false", "locale"=>:en}
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.1ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  [1m[36mSeoMetum Load (0.1ms)[0m  [1mSELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" IS NULL  ORDER BY "seo_meta"."id" ASC LIMIT 1[0m  [["seo_meta_type", "Refinery::Blog::Post::Translation"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mRefinery::Blog::Post Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."id" IS NOT NULL) AND "refinery_blog_post_translations"."slug" = 'post-1' AND "refinery_blog_post_translations"."locale" = ? LIMIT 1[0m  [["locale", "en"]]
+  [1m[35mRefinery::Blog::Post::Translation Load (0.1ms)[0m  SELECT DISTINCT locale FROM "refinery_blog_post_translations"  ORDER BY "refinery_blog_post_translations"."locale" ASC
+  [1m[36mRefinery::Blog::Post Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE 1=0 AND ("refinery_blog_post_translations"."title" = 'Post 1' AND "refinery_blog_post_translations"."locale" = 'en') LIMIT 1[0m
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "refinery_blog_posts" ("draft", "user_id", "source_url", "source_url_title", "published_at", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["draft", "f"], ["user_id", 1], ["source_url", ""], ["source_url_title", ""], ["published_at", "2015-05-06 05:33:00.000000"], ["created_at", "2015-05-06 05:34:20.302273"], ["updated_at", "2015-05-06 05:34:20.302273"]]
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "refinery_blog_post_translations" ("locale", "title", "body", "custom_teaser", "custom_url", "slug", "refinery_blog_post_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  [["locale", "en"], ["title", "Post 1"], ["body", "<p>first post yo</p>"], ["custom_teaser", ""], ["custom_url", ""], ["slug", "post-1"], ["refinery_blog_post_id", 1], ["created_at", "2015-05-06 05:34:20.305309"], ["updated_at", "2015-05-06 05:34:20.305309"]]
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "seo_meta" ("seo_meta_type", "browser_title", "meta_description", "seo_meta_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["seo_meta_type", "Refinery::Blog::Post::Translation"], ["browser_title", ""], ["meta_description", ""], ["seo_meta_id", 1], ["created_at", "2015-05-06 05:34:20.306665"], ["updated_at", "2015-05-06 05:34:20.306665"]]
+  [1m[35mRefinery::Blog::Post Load (0.1ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts"  ORDER BY "refinery_blog_posts"."id" ASC LIMIT 500
+  [1m[36mRefinery::Blog::Post::Translation Load (0.1ms)[0m  [1mSELECT "refinery_blog_post_translations".* FROM "refinery_blog_post_translations" WHERE "refinery_blog_post_translations"."refinery_blog_post_id" = ?[0m  [["refinery_blog_post_id", 1]]
+  [1m[35mSeoMetum Load (0.1ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Blog::Post"], ["seo_meta_id", 1]]
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "seo_meta" ("seo_meta_type", "seo_meta_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["seo_meta_type", "Refinery::Blog::Post"], ["seo_meta_id", 1], ["created_at", "2015-05-06 05:34:20.337717"], ["updated_at", "2015-05-06 05:34:20.337717"]]
+  [1m[35mActsAsTaggableOn::Tag Load (0.1ms)[0m  SELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = ? AND "taggings"."taggable_type" = ? AND (taggings.context = 'tags' AND taggings.tagger_id IS NULL)  [["taggable_id", 1], ["taggable_type", "Refinery::Blog::Post"]]
+  [1m[36m (1.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mRefinery::Blog::Post::Translation Load (0.2ms)[0m  SELECT DISTINCT locale FROM "refinery_blog_post_translations"  ORDER BY "refinery_blog_post_translations"."locale" ASC
+  [1m[36mRefinery::Blog::Post Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE "refinery_blog_post_translations"."locale" = ? AND ("refinery_blog_post_translations"."title" = 'Post 1' AND "refinery_blog_post_translations"."locale" = 'en' AND "refinery_blog_post_translations"."refinery_blog_post_id" != 1) LIMIT 1[0m  [["locale", "en"]]
+Redirected to http://localhost:3000/refinery/blog/posts
+Completed 302 Found in 149ms (ActiveRecord: 4.8ms)
+
+
+Started GET "/refinery/blog/posts" for ::1 at 2015-05-05 22:34:20 -0700
+Processing by Refinery::Blog::Admin::PostsController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.1ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (1.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (3.7ms)
+  [1m[36mRefinery::Setting Load (0.2ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'[0m  [["scoping", "blog"]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "refinery_blog_comments" WHERE "refinery_blog_comments"."state" IS NULL
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'[0m  [["scoping", "blog"]]
+  [1m[35mRefinery::Setting Load (0.2ms)[0m  SELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comment_moderation'  [["scoping", "blog"]]
+  [1m[36mRefinery::Setting Load (0.2ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'teasers_enabled'[0m  [["scoping", "blog"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/_submenu.html.erb (86.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search_header.html.erb (0.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search_header.html.erb (3.3ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "refinery_blog_posts"
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM "refinery_blog_posts"[0m
+  [1m[35mRefinery::Blog::Post Load (0.2ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts"  ORDER BY published_at DESC LIMIT 10 OFFSET 0
+  [1m[36mRefinery::Blog::Post::Translation Load (0.2ms)[0m  [1mSELECT "refinery_blog_post_translations".* FROM "refinery_blog_post_translations" WHERE "refinery_blog_post_translations"."refinery_blog_post_id" IN (1)[0m
+  [1m[35mRefinery::User Load (0.3ms)[0m  SELECT "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" IN (1)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_post.html.erb (74.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_sortable_list.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_sortable_list.html.erb (105.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/index.html.erb within layouts/refinery/admin (204.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (374.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (442.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (5.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (23.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.2ms)
+Completed 200 OK in 712ms (Views: 703.2ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/blog/posts/post-1" for ::1 at 2015-05-05 22:34:28 -0700
+Processing by Refinery::Blog::PostsController#show as HTML
+  Parameters: {"id"=>"post-1", "locale"=>:en}
+  [1m[36mRefinery::Page Load (0.2ms)[0m  [1mSELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."link_url" = ? LIMIT 1[0m  [["link_url", "/blog"]]
+  [1m[35mRefinery::Blog::Post Load (0.2ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE "refinery_blog_post_translations"."locale" = 'en' AND "refinery_blog_post_translations"."slug" = 'post-1'  ORDER BY "refinery_blog_posts"."id" ASC LIMIT 1
+  [1m[36mRefinery::Blog::Post::Translation Load (0.1ms)[0m  [1mSELECT "refinery_blog_post_translations".* FROM "refinery_blog_post_translations" WHERE "refinery_blog_post_translations"."refinery_blog_post_id" = ?[0m  [["refinery_blog_post_id", 1]]
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mRefinery::Blog::Post Load (0.1ms)[0m  [1mSELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" WHERE "refinery_blog_posts"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT "refinery_blog_post_translations".* FROM "refinery_blog_post_translations" WHERE "refinery_blog_post_translations"."refinery_blog_post_id" = ?  [["refinery_blog_post_id", 1]]
+  [1m[36mSQL (0.7ms)[0m  [1mUPDATE "refinery_blog_posts" SET "access_count" = ?, "updated_at" = ? WHERE "refinery_blog_posts"."id" = ?[0m  [["access_count", 1], ["updated_at", "2015-05-06 05:34:28.794633"], ["id", 1]]
+  [1m[35mSeoMetum Load (0.1ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Blog::Post"], ["seo_meta_id", 1]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::Blog::Category Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "refinery_blog_categories" INNER JOIN "refinery_blog_categories_blog_posts" ON "refinery_blog_categories"."id" = "refinery_blog_categories_blog_posts"."blog_category_id" WHERE "refinery_blog_categories_blog_posts"."blog_post_id" = ? LIMIT 1[0m  [["blog_post_id", 1]]
+  [1m[35mRefinery::Blog::Post Load (0.2ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" > '2015-05-06 05:33:00.000000') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at ASC LIMIT 1
+  [1m[36mRefinery::Blog::Post Load (0.2ms)[0m  [1mSELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-06 05:33:00.000000') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at DESC LIMIT 1[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/posts/_post.html.erb (21.8ms)
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "refinery_blog_comments" WHERE "refinery_blog_comments"."blog_post_id" = ? AND "refinery_blog_comments"."state" = ?  [["blog_post_id", 1], ["state", "approved"]]
+  [1m[36mRefinery::Setting Load (0.1ms)[0m  [1mSELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'[0m  [["scoping", "blog"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_error_messages.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/posts/_comments.html.erb (30.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_rss_feed.html.erb (6.2ms)
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "refinery_blog_categories" INNER JOIN "refinery_blog_category_translations" ON "refinery_blog_category_translations"."refinery_blog_category_id" = "refinery_blog_categories"."id" WHERE "refinery_blog_category_translations"."locale" = ?  [["locale", "en"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_categories.html.erb (7.1ms)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN refinery_blog_posts ON refinery_blog_posts.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Refinery::Blog::Post' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT refinery_blog_posts.id FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-06 05:34:28.785853') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en')) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_tags.html.erb (1.4ms)
+  [1m[35mRefinery::Blog::Post Load (0.2ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-06 05:34:28.782476') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at DESC LIMIT 10 OFFSET 0
+  [1m[36mRefinery::Blog::Comment Load (0.1ms)[0m  [1mSELECT "refinery_blog_comments".* FROM "refinery_blog_comments" WHERE "refinery_blog_comments"."blog_post_id" IN (1)[0m
+  [1m[35mRefinery::Blog::Categorization Load (0.1ms)[0m  SELECT "refinery_blog_categories_blog_posts".* FROM "refinery_blog_categories_blog_posts" WHERE "refinery_blog_categories_blog_posts"."blog_post_id" IN (1)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_posts.html.erb (26.5ms)
+  [1m[36mRefinery::Blog::Post Load (0.1ms)[0m  [1mSELECT "refinery_blog_posts"."published_at" FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-01 07:00:00.000000') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at DESC[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_body_content_right.html.erb (47.9ms)
+  [1m[35mRefinery::PagePart Load (0.2ms)[0m  SELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC  [["refinery_page_id", 8]]
+  [1m[36mRefinery::PagePart::Translation Load (0.2ms)[0m  [1mSELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (14, 15)[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_content_page.html.erb (25.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/posts/show.html.erb within layouts/application (220.6ms)
+Completed 500 Internal Server Error in 270ms
+
+ActionView::Template::Error (Asset filtered out and will not be served: add `Rails.application.config.assets.precompile += %w( refinery/blog/frontend.css )` to `config/initializers/assets.rb` and restart your server):
+    10: 
+    11: <%= render "/refinery/content_page", :remove_automatic_sections => true %>
+    12: 
+    13: <% content_for :stylesheets, stylesheet_link_tag('refinery/blog/frontend') %>
+    14: <% content_for :javascripts do %>
+    15:   <%# enable AJAX'd post nav at your own risk until html5 history API implemented. %>
+    16:   <%#= javascript_include_tag('refinery/blog/frontend') %>
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:193:in `check_errors_for'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:159:in `block in stylesheet_link_tag'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:158:in `map'
+  sprockets-rails (2.2.4) lib/sprockets/rails/helper.rb:158:in `stylesheet_link_tag'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/posts/show.html.erb:13:in `___olumes__alter_r__sers_kaitlynhova__rvm_gems_ruby_______bundler_gems_refinerycms_blog___e_b________app_views_refinery_blog_posts_show_html_erb___1720656084498783196_70129698099260'
+  actionview (4.2.0) lib/action_view/template.rb:145:in `block in render'
+  activesupport (4.2.0) lib/active_support/notifications.rb:166:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:333:in `instrument'
+  actionview (4.2.0) lib/action_view/template.rb:143:in `render'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:54:in `block (2 levels) in render_template'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/abstract_renderer.rb:39:in `instrument'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:53:in `block in render_template'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:61:in `render_with_layout'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:52:in `render_template'
+  actionview (4.2.0) lib/action_view/renderer/template_renderer.rb:14:in `render'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionview (4.2.0) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionview (4.2.0) lib/action_view/rendering.rb:100:in `_render_template'
+  actionpack (4.2.0) lib/action_controller/metal/streaming.rb:217:in `_render_template'
+  actionview (4.2.0) lib/action_view/rendering.rb:83:in `render_to_body'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:32:in `render_to_body'
+  actionpack (4.2.0) lib/action_controller/metal/renderers.rb:37:in `render_to_body'
+  actionpack (4.2.0) lib/abstract_controller/rendering.rb:25:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.2.0) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/benchmark.rb:294:in `realtime'
+  activesupport (4.2.0) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.2.0) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/pages/lib/refinery/pages/instance_methods.rb:33:in `render_with_presenters'
+  actionpack (4.2.0) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.2.0) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.2.0) lib/abstract_controller/base.rb:198:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.2.0) lib/abstract_controller/callbacks.rb:20:in `block in process_action'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:117:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:117:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:151:in `block in halting_and_conditional'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:234:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:169:in `block in halting'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:92:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:92:in `_run_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:734:in `_run_process_action_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.0) lib/abstract_controller/callbacks.rb:19:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `block in instrument'
+  activesupport (4.2.0) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.2.0) lib/active_support/notifications.rb:164:in `instrument'
+  actionpack (4.2.0) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.2.0) lib/action_controller/metal/params_wrapper.rb:250:in `process_action'
+  activerecord (4.2.0) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.2.0) lib/abstract_controller/base.rb:137:in `process'
+  actionview (4.2.0) lib/action_view/rendering.rb:30:in `process'
+  actionpack (4.2.0) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.2.0) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.2.0) lib/action_controller/metal.rb:236:in `block in action'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:73:in `call'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:73:in `dispatch'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:42:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:802:in `call'
+  railties (4.2.0) lib/rails/engine.rb:518:in `call'
+  railties (4.2.0) lib/rails/railtie.rb:194:in `public_send'
+  railties (4.2.0) lib/rails/railtie.rb:194:in `method_missing'
+  actionpack (4.2.0) lib/action_dispatch/routing/mapper.rb:51:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:43:in `block in serve'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `each'
+  actionpack (4.2.0) lib/action_dispatch/journey/router.rb:30:in `serve'
+  actionpack (4.2.0) lib/action_dispatch/routing/route_set.rb:802:in `call'
+  dragonfly (1.0.9) lib/dragonfly/middleware.rb:14:in `call'
+  dragonfly (1.0.9) lib/dragonfly/middleware.rb:14:in `call'
+  warden (1.2.3) lib/warden/manager.rb:35:in `block in call'
+  warden (1.2.3) lib/warden/manager.rb:34:in `catch'
+  warden (1.2.3) lib/warden/manager.rb:34:in `call'
+  rack (1.6.0) lib/rack/etag.rb:24:in `call'
+  rack (1.6.0) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.6.0) lib/rack/head.rb:13:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/flash.rb:260:in `call'
+  rack (1.6.0) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.6.0) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/cookies.rb:560:in `call'
+  activerecord (4.2.0) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.2.0) lib/active_record/connection_adapters/abstract/connection_pool.rb:647:in `call'
+  activerecord (4.2.0) lib/active_record/migration.rb:378:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:88:in `call'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:88:in `_run_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:734:in `_run_call_callbacks'
+  activesupport (4.2.0) lib/active_support/callbacks.rb:81:in `run_callbacks'
+  actionpack (4.2.0) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/reloader.rb:73:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/remote_ip.rb:78:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  web-console (2.1.2) lib/web_console/middleware.rb:37:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.0) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.0) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.0) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.0) lib/rails/rack/logger.rb:20:in `call'
+  quiet_assets (1.1.0) lib/quiet_assets.rb:27:in `call_with_quiet_assets'
+  actionpack (4.2.0) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.0) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.0) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.0) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  dragonfly (1.0.9) lib/dragonfly/cookie_monster.rb:9:in `call'
+  rack (1.6.0) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.0) lib/action_dispatch/middleware/static.rb:113:in `call'
+  rack (1.6.0) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.0) lib/rails/engine.rb:518:in `call'
+  railties (4.2.0) lib/rails/application.rb:164:in `call'
+  rack (1.6.0) lib/rack/lock.rb:17:in `call'
+  rack (1.6.0) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.0) lib/rack/handler/webrick.rb:89:in `service'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/httpserver.rb:138:in `service'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/httpserver.rb:94:in `run'
+  /Volumes/WalterSr/Users/kaitlynhova/.rvm/rubies/ruby-2.1.2/lib/ruby/2.1.0/webrick/server.rb:295:in `block in start_thread'
+
+
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_source.erb (8.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/actionpack-4.2.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (25.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_markup.html.erb (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/style.css.erb within layouts/inlined_string (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_inner_console_markup.html.erb within layouts/inlined_string (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/_prompt_box_markup.html.erb within layouts/inlined_string (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/console.js.erb within layouts/javascript (15.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/main.js.erb within layouts/javascript (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/error_page.js.erb within layouts/javascript (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/web-console-2.1.2/lib/web_console/templates/index.html.erb (33.1ms)
+
+
+Started GET "/blog/posts/post-1" for ::1 at 2015-05-05 22:34:46 -0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Refinery::Blog::PostsController#show as HTML
+  Parameters: {"id"=>"post-1", "locale"=>:en}
+  [1m[35mRefinery::Page Load (0.2ms)[0m  SELECT  "refinery_pages".* FROM "refinery_pages" WHERE "refinery_pages"."link_url" = ? LIMIT 1  [["link_url", "/blog"]]
+  [1m[36mRefinery::Blog::Post Load (0.3ms)[0m  [1mSELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE "refinery_blog_post_translations"."locale" = 'en' AND "refinery_blog_post_translations"."slug" = 'post-1'  ORDER BY "refinery_blog_posts"."id" ASC LIMIT 1[0m
+  [1m[35mRefinery::Blog::Post::Translation Load (0.2ms)[0m  SELECT "refinery_blog_post_translations".* FROM "refinery_blog_post_translations" WHERE "refinery_blog_post_translations"."refinery_blog_post_id" = ?  [["refinery_blog_post_id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mRefinery::Blog::Post Load (0.1ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" WHERE "refinery_blog_posts"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "refinery_blog_post_translations".* FROM "refinery_blog_post_translations" WHERE "refinery_blog_post_translations"."refinery_blog_post_id" = ?[0m  [["refinery_blog_post_id", 1]]
+  [1m[35mSQL (0.4ms)[0m  UPDATE "refinery_blog_posts" SET "access_count" = ?, "updated_at" = ? WHERE "refinery_blog_posts"."id" = ?  [["access_count", 2], ["updated_at", "2015-05-06 05:34:47.210342"], ["id", 1]]
+  [1m[36mSeoMetum Load (0.1ms)[0m  [1mSELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1[0m  [["seo_meta_type", "Refinery::Blog::Post"], ["seo_meta_id", 1]]
+  [1m[35m (1.1ms)[0m  commit transaction
+  [1m[36mRefinery::User Load (0.2ms)[0m  [1mSELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mRefinery::Blog::Category Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_blog_categories" INNER JOIN "refinery_blog_categories_blog_posts" ON "refinery_blog_categories"."id" = "refinery_blog_categories_blog_posts"."blog_category_id" WHERE "refinery_blog_categories_blog_posts"."blog_post_id" = ? LIMIT 1  [["blog_post_id", 1]]
+  [1m[36mRefinery::Blog::Post Load (0.2ms)[0m  [1mSELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" > '2015-05-06 05:33:00.000000') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at ASC LIMIT 1[0m
+  [1m[35mRefinery::Blog::Post Load (0.1ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-06 05:33:00.000000') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at DESC LIMIT 1
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/posts/_post.html.erb (38.2ms)
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "refinery_blog_comments" WHERE "refinery_blog_comments"."blog_post_id" = ? AND "refinery_blog_comments"."state" = ?[0m  [["blog_post_id", 1], ["state", "approved"]]
+  [1m[35mRefinery::Setting Load (0.1ms)[0m  SELECT "refinery_settings"."value" FROM "refinery_settings" WHERE "refinery_settings"."scoping" = ? AND "refinery_settings"."name" = 'comments_allowed'  [["scoping", "blog"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_error_messages.html.erb (0.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/posts/_comments.html.erb (31.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_rss_feed.html.erb (7.9ms)
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "refinery_blog_categories" INNER JOIN "refinery_blog_category_translations" ON "refinery_blog_category_translations"."refinery_blog_category_id" = "refinery_blog_categories"."id" WHERE "refinery_blog_category_translations"."locale" = ?[0m  [["locale", "en"]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_categories.html.erb (7.0ms)
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "tags" JOIN (SELECT taggings.tag_id, COUNT(taggings.tag_id) AS tags_count FROM "taggings" INNER JOIN refinery_blog_posts ON refinery_blog_posts.id = taggings.taggable_id WHERE (taggings.taggable_type = 'Refinery::Blog::Post' AND taggings.context = 'tags') AND (taggings.taggable_id IN(SELECT refinery_blog_posts.id FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-06 05:34:47.184061') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en')) GROUP BY taggings.tag_id HAVING COUNT(taggings.tag_id) > 0) AS taggings ON taggings.tag_id = tags.id
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_tags.html.erb (1.6ms)
+  [1m[36mRefinery::Blog::Post Load (0.2ms)[0m  [1mSELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-06 05:34:47.164444') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at DESC LIMIT 10 OFFSET 0[0m
+  [1m[35mRefinery::Blog::Comment Load (0.2ms)[0m  SELECT "refinery_blog_comments".* FROM "refinery_blog_comments" WHERE "refinery_blog_comments"."blog_post_id" IN (1)
+  [1m[36mRefinery::Blog::Categorization Load (0.1ms)[0m  [1mSELECT "refinery_blog_categories_blog_posts".* FROM "refinery_blog_categories_blog_posts" WHERE "refinery_blog_categories_blog_posts"."blog_post_id" IN (1)[0m
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_posts.html.erb (9.7ms)
+  [1m[35mRefinery::Blog::Post Load (0.1ms)[0m  SELECT "refinery_blog_posts"."published_at" FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE ("refinery_blog_posts"."published_at" < '2015-05-01 07:00:00.000000') AND "refinery_blog_posts"."draft" = 'f' AND "refinery_blog_post_translations"."locale" = 'en'  ORDER BY published_at DESC
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/shared/_body_content_right.html.erb (32.2ms)
+  [1m[36mRefinery::PagePart Load (0.2ms)[0m  [1mSELECT "refinery_page_parts".* FROM "refinery_page_parts" WHERE "refinery_page_parts"."refinery_page_id" = ?  ORDER BY position ASC[0m  [["refinery_page_id", 8]]
+  [1m[35mRefinery::PagePart::Translation Load (0.2ms)[0m  SELECT "refinery_page_part_translations".* FROM "refinery_page_part_translations" WHERE "refinery_page_part_translations"."refinery_page_part_id" IN (14, 15)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_content_page.html.erb (28.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/posts/show.html.erb within layouts/application (267.0ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.3ms)
+  [1m[36mRefinery::User Load (0.2ms)[0m  [1mSELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mRefinery::Role Load (0.2ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  [1m[36mRefinery::Page::Translation Load (0.2ms)[0m  [1mSELECT "refinery_page_translations".* FROM "refinery_page_translations" WHERE "refinery_page_translations"."refinery_page_id" = ?[0m  [["refinery_page_id", 8]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (139.9ms)
+  [1m[35mSeoMetum Load (0.1ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Blog::Post::Translation"], ["seo_meta_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_google_analytics.html.erb (0.6ms)
+  Rendered refinery/_head.html.erb (100.8ms)
+  [1m[36mSQL (0.6ms)[0m  [1mSELECT "refinery_pages"."id" AS t0_r0, "refinery_pages"."parent_id" AS t0_r1, "refinery_pages"."path" AS t0_r2, "refinery_pages"."slug" AS t0_r3, "refinery_pages"."custom_slug" AS t0_r4, "refinery_pages"."show_in_menu" AS t0_r5, "refinery_pages"."link_url" AS t0_r6, "refinery_pages"."menu_match" AS t0_r7, "refinery_pages"."deletable" AS t0_r8, "refinery_pages"."draft" AS t0_r9, "refinery_pages"."skip_to_first_child" AS t0_r10, "refinery_pages"."lft" AS t0_r11, "refinery_pages"."rgt" AS t0_r12, "refinery_pages"."depth" AS t0_r13, "refinery_pages"."view_template" AS t0_r14, "refinery_pages"."layout_template" AS t0_r15, "refinery_pages"."created_at" AS t0_r16, "refinery_pages"."updated_at" AS t0_r17, "parents_refinery_pages"."id" AS t1_r0, "parents_refinery_pages"."parent_id" AS t1_r1, "parents_refinery_pages"."path" AS t1_r2, "parents_refinery_pages"."slug" AS t1_r3, "parents_refinery_pages"."custom_slug" AS t1_r4, "parents_refinery_pages"."show_in_menu" AS t1_r5, "parents_refinery_pages"."link_url" AS t1_r6, "parents_refinery_pages"."menu_match" AS t1_r7, "parents_refinery_pages"."deletable" AS t1_r8, "parents_refinery_pages"."draft" AS t1_r9, "parents_refinery_pages"."skip_to_first_child" AS t1_r10, "parents_refinery_pages"."lft" AS t1_r11, "parents_refinery_pages"."rgt" AS t1_r12, "parents_refinery_pages"."depth" AS t1_r13, "parents_refinery_pages"."view_template" AS t1_r14, "parents_refinery_pages"."layout_template" AS t1_r15, "parents_refinery_pages"."created_at" AS t1_r16, "parents_refinery_pages"."updated_at" AS t1_r17, "refinery_page_translations"."id" AS t2_r0, "refinery_page_translations"."refinery_page_id" AS t2_r1, "refinery_page_translations"."locale" AS t2_r2, "refinery_page_translations"."created_at" AS t2_r3, "refinery_page_translations"."updated_at" AS t2_r4, "refinery_page_translations"."title" AS t2_r5, "refinery_page_translations"."custom_slug" AS t2_r6, "refinery_page_translations"."menu_title" AS t2_r7, "refinery_page_translations"."slug" AS t2_r8 FROM "refinery_pages" INNER JOIN "refinery_page_translations" ON "refinery_page_translations"."refinery_page_id" = "refinery_pages"."id" LEFT OUTER JOIN "refinery_pages" "parents_refinery_pages" ON "parents_refinery_pages"."id" = "refinery_pages"."parent_id" WHERE "refinery_pages"."draft" = 'f' AND "refinery_pages"."show_in_menu" = 't' AND "refinery_page_translations"."locale" = 'en'  ORDER BY "refinery_pages"."lft"[0m
+  Rendered refinery/_header.html.erb (36.0ms)
+  Rendered refinery/_footer.html.erb (0.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_javascripts.html.erb (214.5ms)
+Completed 200 OK in 885ms (Views: 786.7ms | ActiveRecord: 8.4ms)
+
+
+Started GET "/refinery/blog/posts/post-1/edit?switch_locale=en" for ::1 at 2015-05-05 22:34:55 -0700
+Processing by Refinery::Blog::Admin::PostsController#edit as HTML
+  Parameters: {"switch_locale"=>"en", "id"=>"post-1", "locale"=>:en}
+  [1m[35mRefinery::Blog::Post Load (0.3ms)[0m  SELECT  "refinery_blog_posts".* FROM "refinery_blog_posts" INNER JOIN "refinery_blog_post_translations" ON "refinery_blog_post_translations"."refinery_blog_post_id" = "refinery_blog_posts"."id" WHERE "refinery_blog_post_translations"."slug" = 'post-1' AND "refinery_blog_post_translations"."locale" = ?  ORDER BY "refinery_blog_posts"."id" ASC LIMIT 1  [["locale", "en"]]
+  [1m[36mRefinery::Blog::Post::Translation Load (0.1ms)[0m  [1mSELECT "refinery_blog_post_translations".* FROM "refinery_blog_post_translations" WHERE "refinery_blog_post_translations"."refinery_blog_post_id" IN (1)[0m
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1  [["title", "Refinery"]]
+  [1m[36mRefinery::User Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1[0m  [["role_id", 1]]
+  [1m[35mRefinery::User Load (0.1ms)[0m  SELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mRefinery::UserPlugin Load (0.2ms)[0m  [1mSELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC[0m  [["user_id", 1]]
+  [1m[35mRefinery::Role Load (0.1ms)[0m  SELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_error_messages.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_locale_picker.html.erb (0.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_form_part.html.erb (0.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_teaser_part.html.erb (0.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_form_advanced_options_menu.html.erb (2.7ms)
+  [1m[36mActsAsTaggableOn::Tag Load (0.1ms)[0m  [1mSELECT "tags".* FROM "tags" INNER JOIN "taggings" ON "tags"."id" = "taggings"."tag_id" WHERE "taggings"."taggable_id" = ? AND "taggings"."taggable_type" = ? AND (taggings.context = 'tags' AND taggings.tagger_id IS NULL)[0m  [["taggable_id", 1], ["taggable_type", "Refinery::Blog::Post"]]
+  [1m[35mRefinery::Blog::Category Load (0.1ms)[0m  SELECT "refinery_blog_categories".* FROM "refinery_blog_categories"
+  [1m[36mRefinery::User Load (0.1ms)[0m  [1mSELECT "refinery_users".* FROM "refinery_users"[0m
+  [1m[35mSeoMetum Load (0.1ms)[0m  SELECT  "seo_meta".* FROM "seo_meta" WHERE "seo_meta"."seo_meta_type" = ? AND "seo_meta"."seo_meta_id" = ?  ORDER BY "seo_meta"."id" ASC LIMIT 1  [["seo_meta_type", "Refinery::Blog::Post::Translation"], ["seo_meta_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/seo_meta-2.0.0.rc.1/app/views/seo_meta/_form.html.erb (2.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_continue_editing.html.erb (0.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_form_actions.html.erb (10.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/shared/admin/_autocomplete.html.erb (6.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/_form.html.erb (127.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-blog-09e4b6649878/app/views/refinery/blog/admin/posts/edit.html.erb within layouts/refinery/admin (128.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (357.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (455.4ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (3.9ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (15.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.5ms)
+Completed 200 OK in 664ms (Views: 638.1ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/refinery/posts" for ::1 at 2015-05-05 22:35:01 -0700
+Processing by Refinery::Posts::Admin::PostsController#index as HTML
+  Parameters: {"locale"=>:en}
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT  "refinery_roles".* FROM "refinery_roles" WHERE "refinery_roles"."title" = ?  ORDER BY "refinery_roles"."id" ASC LIMIT 1[0m  [["title", "Refinery"]]
+  [1m[35mRefinery::User Exists (0.1ms)[0m  SELECT  1 AS one FROM "refinery_users" INNER JOIN "refinery_roles_users" ON "refinery_users"."id" = "refinery_roles_users"."user_id" WHERE "refinery_roles_users"."role_id" = ? LIMIT 1  [["role_id", 1]]
+  [1m[36mRefinery::User Load (0.1ms)[0m  [1mSELECT  "refinery_users".* FROM "refinery_users" WHERE "refinery_users"."id" = ?  ORDER BY "refinery_users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mRefinery::UserPlugin Load (0.1ms)[0m  SELECT "refinery_user_plugins".* FROM "refinery_user_plugins" WHERE "refinery_user_plugins"."user_id" = ?  ORDER BY position ASC  [["user_id", 1]]
+  [1m[36mRefinery::Role Load (0.1ms)[0m  [1mSELECT "refinery_roles".* FROM "refinery_roles" INNER JOIN "refinery_roles_users" ON "refinery_roles"."id" = "refinery_roles_users"."role_id" WHERE "refinery_roles_users"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search_header.html.erb (0.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search_header.html.erb (2.8ms)
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "refinery_posts"
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM "refinery_posts"[0m
+  [1m[35mRefinery::Posts::Post Load (0.2ms)[0m  SELECT  "refinery_posts".* FROM "refinery_posts"  ORDER BY position ASC LIMIT 20 OFFSET 0
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_post.html.erb (12.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_sortable_list.html.erb (0.4ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_sortable_list.html.erb (23.8ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_posts.html.erb (26.1ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_records.html.erb (38.5ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/gems/refinerycms-acts-as-indexed-2.0.1/app/views/refinery/acts_as_indexed/admin/_search.html.erb (0.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_search.html.erb (2.9ms)
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(*) FROM "refinery_posts"[0m
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/_actions.html.erb (15.4ms)
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(*) FROM "refinery_posts"
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_make_sortable.html.erb (33.2ms)
+  Rendered vendor/extensions/posts/app/views/refinery/posts/admin/posts/index.html.erb within layouts/refinery/admin (97.7ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_html_tag.html.erb (0.1ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_javascripts.html.erb (326.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_head.html.erb (387.3ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_site_bar.html.erb (3.6ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/admin/_menu.html.erb (15.8ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_no_script.html.erb (0.2ms)
+  Rendered /Volumes/WalterSr/Users/kaitlynhova/.rvm/gems/ruby-2.1.2/bundler/gems/refinerycms-d953a800a630/core/app/views/refinery/_message.html.erb (0.1ms)
+Completed 200 OK in 540ms (Views: 533.8ms | ActiveRecord: 0.8ms)
