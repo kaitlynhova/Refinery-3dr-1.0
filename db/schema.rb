@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506041611) do
+ActiveRecord::Schema.define(version: 20150506042451) do
 
   create_table "refinery_images", force: :cascade do |t|
     t.string   "image_mime_type"
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(version: 20150506041611) do
   add_index "refinery_pages", ["lft"], name: "index_refinery_pages_on_lft"
   add_index "refinery_pages", ["parent_id"], name: "index_refinery_pages_on_parent_id"
   add_index "refinery_pages", ["rgt"], name: "index_refinery_pages_on_rgt"
+
+  create_table "refinery_posts", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "date"
+    t.integer  "photo_id"
+    t.text     "copy"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "refinery_resources", force: :cascade do |t|
     t.string   "file_mime_type"

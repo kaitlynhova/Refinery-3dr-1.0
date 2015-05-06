@@ -1,0 +1,45 @@
+<% content_for :body_content_title do %>
+  <%= @post.title %>
+<% end %>
+
+<% content_for :body do %>
+  <section>
+    <h1>Title</h1>
+    <p>
+      <%=raw @post.title %>
+    </p>
+  </section>
+  <section>
+    <h1>Date</h1>
+    <p>
+      <%=raw @post.date %>
+    </p>
+  </section>
+  <section>
+    <h1>Photo</h1>
+    <p>
+      <%= image_fu @post.photo, nil %>
+    </p>
+  </section>
+  <section>
+    <h1>Copy</h1>
+    <p>
+      <%=raw @post.copy %>
+    </p>
+  </section>
+<% end %>
+
+<% content_for :side_body do %>
+  <aside>
+    <h2><%= t('.other') %></h2>
+    <ul id="posts">
+      <% @posts.each do |post| %>
+        <li>
+          <%= link_to post.title, refinery.posts_post_path(post) %>
+        </li>
+      <% end %>
+    </ul>
+  </aside>
+<% end %>
+
+<%= render '/refinery/content_page' %>
